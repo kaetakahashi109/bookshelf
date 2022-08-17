@@ -115,8 +115,7 @@ def make_book_df(title_list: List[str], n_books: int) -> pd.DataFrame:
         api_id = str(st.secrets["rakuten_api_id"])
         elements = "title,author,publisherName,salesDate,isbn,itemCaption"
         hits = 1
-        url_items = f"https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?applicationId={api_id}" \
-                    f"&keyword={booktitle}&hits={hits}&elements={elements}&field=0"
+        url_items = f"https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?applicationId={api_id}&keyword={booktitle}&hits={hits}&elements={elements}&field=0"
         r_get = requests.get(url_items)
         items = r_get.json().get("Items")
         if items is None:
