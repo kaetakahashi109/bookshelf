@@ -68,8 +68,8 @@ def make_response_df(response_df: pd.DataFrame) -> pd.DataFrame:
 
 def response_df_check(response_df: pd.DataFrame, min_len: int) -> pd.DataFrame:
     response_df = title_check_by_length(response_df, min_len)
-    response_df = title_check_by_expr(response_df)
-    # response_df = title_check_by_inf(response_df)
+    # response_df = title_check_by_expr(response_df)
+    response_df = title_check_by_inf(response_df)
     response_df = response_df.dropna()
     return response_df
 
@@ -115,7 +115,8 @@ def make_book_df(title_list: List[str], n_books: int) -> pd.DataFrame:
         api_id = str(st.secrets["rakuten_api_id"])
         elements = "title,author,publisherName,salesDate,isbn,itemCaption"
         hits = 1
-        url_items = f"https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?applicationId={api_id}&keyword={booktitle}&hits={hits}&elements={elements}&field=0"
+        url_items = f"https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?applicationId={api_id}" \
+                    f"&keyword={booktitle}&hits={hits}&elements={elements}&field=0"
         r_get = requests.get(url_items)
         items = r_get.json().get("Items")
         if items is None:
@@ -209,7 +210,6 @@ def main():
             book_list = response_df.groupby("cluster").aggregate({
                 "area": lambda x: np.argmax(x), "text": lambda x: x.tolist()}).apply(
                 lambda x: x[1][x[0]], axis=1).tolist()
-            book_list
             st.session_state.book_df = make_book_df(book_list, st.session_state.n_books)
             wordcloud_text = " ".join(st.session_state.book_df["説明"].tolist())
             st.dataframe(st.session_state.book_df)
