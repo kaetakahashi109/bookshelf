@@ -202,8 +202,11 @@ def main():
         if st.session_state.n_books > 0:
             st.write('本：', st.session_state.n_books)
             response_df = detect_document(uploaded_img)
+            response_df
             response_df = make_response_df(response_df)
+            response_df
             response_df = response_df_check(response_df, min_len=1)
+            response_df
             response_df["cluster"] = get_cluster(response_df, st.session_state.n_books)
             book_list = response_df.groupby("cluster").aggregate({
                 "area": lambda x: np.argmax(x), "text": lambda x: x.tolist()}).apply(
