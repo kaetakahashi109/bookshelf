@@ -85,7 +85,7 @@ def title_check_by_expr(response_df: pd.DataFrame) -> pd.DataFrame:
 
 
 def check_by_expr(title: str) -> str:
-    m = re.search(r'(\w|[ -~])*', title)
+    m = re.search(r'([a-zA-Z_0-9]|[ -~])*', title)
     if title == m.group():
         title = np.nan
     else:
