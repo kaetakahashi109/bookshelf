@@ -68,7 +68,7 @@ def make_response_df(response_df: pd.DataFrame) -> pd.DataFrame:
 
 def response_df_check(response_df: pd.DataFrame, min_len: int) -> pd.DataFrame:
     response_df = title_check_by_length(response_df, min_len)
-    # response_df = title_check_by_expr(response_df)
+    response_df = title_check_by_expr(response_df)
     response_df = title_check_by_inf(response_df)
     response_df = response_df.dropna()
     return response_df
@@ -85,7 +85,7 @@ def title_check_by_expr(response_df: pd.DataFrame) -> pd.DataFrame:
 
 
 def check_by_expr(title: str) -> str:
-    m = re.search(r'(\w|[ -~])*', title)
+    m = re.search(r'[ -~]*', title)
     if title == m.group():
         title = np.nan
     else:
