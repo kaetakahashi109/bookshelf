@@ -85,7 +85,7 @@ def title_check_by_expr(response_df: pd.DataFrame) -> pd.DataFrame:
 
 
 def check_by_expr(title: str) -> str:
-    m = re.search(r'([a-zA-Z_0-9]|[ -~])*', title)
+    m = re.search(r'([\w]|[ -~])*', title)
     if title == m.group():
         title = np.nan
     else:
@@ -115,10 +115,8 @@ def make_book_df(title_list: List[str], n_books: int) -> pd.DataFrame:
         api_id = str(st.secrets["rakuten_api_id"])
         elements = "title,author,publisherName,salesDate,isbn,itemCaption"
         hits = 1
-        url_items = f"""
-        https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?applicationId={api_id}
-        &keyword={booktitle}&hits={hits}&elements={elements}&field=0
-        """
+        url_items = f"https://app.rakuten.co.jp/services/api/BooksTotal/Search/20170404?applicationId={api_id}" \
+                    f"&keyword={booktitle}&hits={hits}&elements={elements}&field=0"
         r_get = requests.get(url_items)
         items = r_get.json().get("Items")
         if items is None:
@@ -127,7 +125,6 @@ def make_book_df(title_list: List[str], n_books: int) -> pd.DataFrame:
             book_search_df = pd.json_normalize(items)
             book_search_df["key"] = booktitle
             book_df_list.append(book_search_df)
-    book_df_list
     my_bar.progress(1.0)
     book_df = pd.concat(book_df_list)[["Item.title", "Item.author", "Item.publisherName", "Item.salesDate", "Item.isbn", "Item.itemCaption"]].rename(
         columns={
