@@ -69,7 +69,7 @@ def make_response_df(response_df: pd.DataFrame) -> pd.DataFrame:
 def response_df_check(response_df: pd.DataFrame, min_len: int) -> pd.DataFrame:
     response_df = title_check_by_length(response_df, min_len)
     response_df = title_check_by_expr(response_df)
-    response_df = title_check_by_inf(response_df)
+    # response_df = title_check_by_inf(response_df)
     response_df = response_df.dropna()
     return response_df
 
@@ -202,16 +202,14 @@ def main():
         if st.session_state.n_books > 0:
             st.write('本：', st.session_state.n_books)
             response_df = detect_document(uploaded_img)
-            st.dataframe(response_df)
             response_df = make_response_df(response_df)
-            st.dataframe(response_df)
             response_df = response_df_check(response_df, min_len=1)
             st.dataframe(response_df)
             response_df["cluster"] = get_cluster(response_df, st.session_state.n_books)
             book_list = response_df.groupby("cluster").aggregate({
                 "area": lambda x: np.argmax(x), "text": lambda x: x.tolist()}).apply(
                 lambda x: x[1][x[0]], axis=1).tolist()
-            # st.dataframe(response_df)
+            book_list
             st.session_state.book_df = make_book_df(book_list, st.session_state.n_books)
             wordcloud_text = " ".join(st.session_state.book_df["説明"].tolist())
             st.dataframe(st.session_state.book_df)
