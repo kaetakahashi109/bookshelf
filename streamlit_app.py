@@ -204,9 +204,9 @@ def main():
             response_df = detect_document(uploaded_img)
             st.dataframe(response_df)
             response_df = make_response_df(response_df)
-            # st.dataframe(response_df)
+            st.dataframe(response_df)
             response_df = response_df_check(response_df, min_len=1)
-            # st.dataframe(response_df)
+            st.dataframe(response_df)
             response_df["cluster"] = get_cluster(response_df, st.session_state.n_books)
             book_list = response_df.groupby("cluster").aggregate({
                 "area": lambda x: np.argmax(x), "text": lambda x: x.tolist()}).apply(
