@@ -203,22 +203,22 @@ def main():
             st.write('本：', st.session_state.n_books)
             response_df = detect_document(uploaded_img)
             st.dataframe(response_df)
-            response_df = make_response_df(response_df)
-            st.dataframe(response_df)
-            response_df = response_df_check(response_df, min_len=1)
-            st.dataframe(response_df)
-            response_df["cluster"] = get_cluster(response_df, st.session_state.n_books)
-            book_list = response_df.groupby("cluster").aggregate({
-                "area": lambda x: np.argmax(x), "text": lambda x: x.tolist()}).apply(
-                lambda x: x[1][x[0]], axis=1).tolist()
-            st.dataframe(response_df)
-            st.session_state.book_df = make_book_df(book_list, st.session_state.n_books)
-            wordcloud_text = " ".join(st.session_state.book_df["説明"].tolist())
-            st.dataframe(st.session_state.book_df)
-            st.session_state.wordcloud_img = create_wc_image(wordcloud_text)
-            st.pyplot(st.session_state.wordcloud_img)
-            st.session_state.book_csv = st.session_state.book_df.to_csv(index=False)
-            st.session_state.initial_load = False
+            # response_df = make_response_df(response_df)
+            # st.dataframe(response_df)
+            # response_df = response_df_check(response_df, min_len=1)
+            # st.dataframe(response_df)
+            # response_df["cluster"] = get_cluster(response_df, st.session_state.n_books)
+            # book_list = response_df.groupby("cluster").aggregate({
+            #     "area": lambda x: np.argmax(x), "text": lambda x: x.tolist()}).apply(
+            #     lambda x: x[1][x[0]], axis=1).tolist()
+            # st.dataframe(response_df)
+            # st.session_state.book_df = make_book_df(book_list, st.session_state.n_books)
+            # wordcloud_text = " ".join(st.session_state.book_df["説明"].tolist())
+            # st.dataframe(st.session_state.book_df)
+            # st.session_state.wordcloud_img = create_wc_image(wordcloud_text)
+            # st.pyplot(st.session_state.wordcloud_img)
+            # st.session_state.book_csv = st.session_state.book_df.to_csv(index=False)
+            # st.session_state.initial_load = False
 
     else:
         st.image(st.session_state.img_array, use_column_width=True)
