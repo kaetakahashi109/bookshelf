@@ -208,6 +208,7 @@ def main():
             book_list = response_df.groupby("cluster").aggregate({
                 "area": lambda x: np.argmax(x), "text": lambda x: x.tolist()}).apply(
                 lambda x: x[1][x[0]], axis=1).tolist()
+            book_list
             st.session_state.book_df = make_book_df(book_list, st.session_state.n_books)
             wordcloud_text = " ".join(st.session_state.book_df["説明"].tolist())
             st.dataframe(st.session_state.book_df)
