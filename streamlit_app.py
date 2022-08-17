@@ -85,7 +85,7 @@ def title_check_by_expr(response_df: pd.DataFrame) -> pd.DataFrame:
 
 
 def check_by_expr(title: str) -> str:
-    m = re.search(r'([\w]|[ -~])*', title)
+    m = re.search(r'(\w|[ -~])*', title)
     if title == m.group():
         title = np.nan
     else:
@@ -212,7 +212,6 @@ def main():
                 "area": lambda x: np.argmax(x), "text": lambda x: x.tolist()}).apply(
                 lambda x: x[1][x[0]], axis=1).tolist()
             st.dataframe(response_df)
-            book_list
             st.session_state.book_df = make_book_df(book_list, st.session_state.n_books)
             wordcloud_text = " ".join(st.session_state.book_df["説明"].tolist())
             st.dataframe(st.session_state.book_df)
