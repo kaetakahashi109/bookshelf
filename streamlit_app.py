@@ -125,6 +125,7 @@ def make_book_df(title_list: List[str], n_books: int) -> pd.DataFrame:
             book_search_df["key"] = booktitle
             book_df_list.append(book_search_df)
     my_bar.progress(1.0)
+    print(book_df_list)
     book_df = pd.concat(book_df_list)[["Item.title", "Item.author", "Item.publisherName", "Item.salesDate", "Item.isbn", "Item.itemCaption"]].rename(
         columns={
             "Item.title": "書名",
